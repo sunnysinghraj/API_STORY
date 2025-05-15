@@ -16,9 +16,22 @@ def process():
     original_str = search_str
     search_str = search_str.lower().strip()
     if not search_str:
-        return jsonify({"error": "search_query is required"}), 400
+        return jsonify({
+        "all_ngrams_with_count": [],
+        "match_method" : "exact",
+        "probable_product": [],
+        "original query" : original_str,
+        "time_taken_ms": round(time_taken_ms,2)
+    })
+
     if len(search_str.split()) > MAX_QUERY_WORDS:
-        return jsonify({"error": f"search_query exceeds {MAX_QUERY_WORDS} words"}), 400
+        return jsonify({
+        "all_ngrams_with_count": [],
+        "match_method" : "exact",
+        "probable_product": [],
+        "original query" : original_str,
+        "time_taken_ms": round(time_taken_ms,2)
+    })
    
     start_time = time.time()
 
@@ -26,7 +39,7 @@ def process():
     
     end_time = time.time()
     
-    time_taken_ms = (end_time - start_time)
+    time_taken_ms = (end_time - start_time)*1000
 
     return jsonify({
         "all_ngrams_with_count": all_ngrams_with_cnt,
