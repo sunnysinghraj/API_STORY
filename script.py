@@ -13,7 +13,8 @@ with open("config.yml", 'r') as config_file:
 
 min_len_ngram = config['ngram_settings']['min_len_ngram']
 max_len_ngram = config['ngram_settings']['max_len_ngram']
-desired_Probable_Product_Count = config['ngram_settings']['desired_Probable_Product_Count']
+probable_product_threshold = config['ngram_settings']['probable_product_threshold']
+product_eligibility_count = config['ngram_settings']['product_eligibility_count']
 
 server = config['solr_settings']['server']
 port_number = config['solr_settings']['port_number']
@@ -160,7 +161,7 @@ def process_query(query,all_ngrams_with_cnt,probable_Product):
         if 'response' in result and 'numFound' in result['response']:
             num_found = result['response']['numFound']
             all_ngrams_with_cnt.append({ gram : num_found })
-            if num_found >= 5 and len(probable_Product) < desired_Probable_Product_Count: 
+            if num_found >= product_eligibility_count and len(probable_Product) < probable_product_threshold: 
                 probable_Product.append(gram)
 
         else: 
